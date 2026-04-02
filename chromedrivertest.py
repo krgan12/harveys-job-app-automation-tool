@@ -46,36 +46,36 @@ def fill_form(driver, data, location):
 
 def select_location(driver, location):
     # province_dropdown = Select(driver.find_element(By.ID, "province_field_id"))
-    province_dropdown = wait.until(EC.element_to_be_clickable(By.XPATH, "//a[@aria-labelledby='request_custom_fields_360006836632_label']"))
+    province_dropdown = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@aria-labelledby='request_custom_fields_360006836632_label']")))
     # province_dropdown.select_by_visible_text(location["province"])
     province_dropdown.click()
 
-    time.sleep(3)
+    #time.sleep(3)
 
-    province_option = wait.until(EC.element_to_be_clickable(By.XPATH, "//li[contains(text(), 'Ontario')]"))
+    province_option = wait.until(EC.element_to_be_clickable((By.XPATH, f"//li[contains(text(), '{location["province"]}')]")))
     province_option.click()
 
-    time.sleep(3)
+    #time.sleep(3)
 
     # city_dropdown = Select(driver.find_element(By.ID, "city_field_id"))
-    city_dropdown = wait.until(EC.element_to_be_clickable(By.XPATH, "//a[contains(@aria-labelledby, 'city')]"))
+    city_dropdown = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[contains(@aria-labelledby, 'city')]")))
     # city_dropdown.select_by_visible_text(location["city"])
     city_dropdown.click()
 
-    time.sleep(3)
+    #rime.sleep(3)
 
-    city_option = wait.until(EC.element_to_be_clickable(By.XPATH, f"//li[contains(text(), '{locations["city"]}')]"))
+    city_option = wait.until(EC.element_to_be_clickable((By.XPATH, f"//li[contains(text(), '{location["city"]}')]")))
     city_option.click()
 
-    time.sleep(3)
+    #time.sleep(3)
 
     # store_dropdown = Select(driver.find_element(By.ID, "store_field_id"))
-    store_dropdown = wait.until(EC.element_to_be_clickable(By.XPATH, "//a[contains(@aria-labelledby, 'location')]"))
+    store_dropdown = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[contains(@aria-labelledby, 'location')]")))
     store_dropdown.click()
     
-    time.sleep(3)
+    #time.sleep(3)
     #store_dropdown.select_by_visible_text(location["store"])
-    store_option = wait.until(EC.element_to_be_clickable(By.XPATH, f"//li[contains(text(), '{locations["store"]}')]"))
+    store_option = wait.until(EC.element_to_be_clickable((By.XPATH, f"//li[contains(text(), '{location["store"]}')]")))
     store_option.click()
 
     checkboxes = driver.find_elements(By.NAME, "roles")
