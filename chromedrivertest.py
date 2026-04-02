@@ -1,8 +1,16 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import Select
 from webdriver_manager.chrome import ChromeDriverManager
+import time
 
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+wait = WebDriverWait(driver, 10)
+
+URL = "https://harveyscareers.zendesk.com/hc/en-us/requests/new"
 
 user_data = {
     "email": "keagan123@outlook.com",
@@ -22,5 +30,16 @@ user_data = {
 locations = [
     {"province": "Ontario", "city": "Mississauga", "store": "-2312- 715 Burnhamthorpe Rd W"} #test location
 ]
+
+def fill_form(driver, data, location):
+    # Email
+    
+    # Name
+
+    # Phone
+    pass
+
+def select_location(driver, location):
+    pass
 
 input("Press Enter to close the browser...")
