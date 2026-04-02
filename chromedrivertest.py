@@ -58,7 +58,23 @@ def select_location(driver, location):
     #time.sleep(3)
 
     # city_dropdown = Select(driver.find_element(By.ID, "city_field_id"))
-    city_dropdown = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[contains(@aria-labelledby, 'city')]")))
+    #city_dropdown = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[contains(@aria-labelledby, 'city')]")))
+    # city_dropdown = wait.until(EC.element_to_be_clickable((By.XPATH, "(//a[@class='nesty-input'])[2]")))
+
+    # wait until at least 2 dropdowns exist
+    city_dropdown = wait.until(lambda d: len(d.find_elements(By.CLASS_NAME, "nesty-input")) >= 2)
+    dropdowns = driver.find_elements(By.CLASS_NAME, "nesty-input")
+    # city_dropdown = dropdowns[1]
+
+    # pick the one that is actually visible
+    for d in dropdowns:
+        if d.is_displayed():
+            city_dropdown = d
+            break
+        else: 
+            pass
+    city_dropdown = None
+
     # city_dropdown.select_by_visible_text(location["city"])
     city_dropdown.click()
 
@@ -70,7 +86,11 @@ def select_location(driver, location):
     #time.sleep(3)
 
     # store_dropdown = Select(driver.find_element(By.ID, "store_field_id"))
-    store_dropdown = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[contains(@aria-labelledby, 'location')]")))
+    #store_dropdown = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[contains(@aria-labelledby, 'location')]")))
+    # store_dropdown = wait.until(EC.element_to_be_clickable((By.XPATH, "(//a[@class='nesty-input'])[3]")))
+    store_dropdown = wait.until(lambda d: len(d.find_elements(By.CLASS_NAME, 'nesty-input')) >= 3)
+    dropdowns = driver.find_elements(By.CLASS_NAME, "nesty-input")
+    store_dropdown = dropdowns[2]
     store_dropdown.click()
     
     #time.sleep(3)
