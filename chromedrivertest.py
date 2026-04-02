@@ -24,7 +24,7 @@ user_data = {
         "evening": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
         "late_night": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     },
-    "resume_path": "Keagan_Rodrigues_Resume.pdf"
+    "resume_path": "/Users/keaganrodrigues/Documents/job_form_bot/Keagan_Rodrigues_Resume.pdf"
 }
 
 locations = [
@@ -33,7 +33,7 @@ locations = [
 
 def fill_form(driver, data, location):
     # Email
-    email_input = wait.until(EC.presence_of_all_elements_located((By.ID, "request_anonymous_requester_email")))
+    email_input = wait.until(EC.presence_of_element_located((By.ID, "request_anonymous_requester_email")))
     email_input.send_keys(data["email"])
 
     # Name
@@ -45,24 +45,45 @@ def fill_form(driver, data, location):
     phone_input.send_keys(data["phone"])
 
 def select_location(driver, location):
-    province_dropdown = Select(driver.find_element(By.ID, "province_field_id"))
-    province_dropdown.select_by_visible_text(location["province"])
+    # province_dropdown = Select(driver.find_element(By.ID, "province_field_id"))
+    province_dropdown = wait.until(EC.element_to_be_clickable(By.XPATH, "//a[@aria-labelledby='request_custom_fields_360006836632_label']"))
+    # province_dropdown.select_by_visible_text(location["province"])
+    province_dropdown.click()
 
-    time.sleep(1)
+    time.sleep(3)
 
-    city_dropdown = Select(driver.find_element(By.ID, "city_field_id"))
-    city_dropdown.select_by_visible_text(location["city"])
+    province_option = wait.until(EC.element_to_be_clickable(By.XPATH, "//li[contains(text(), 'Ontario')]"))
+    province_option.click()
 
-    time.sleep(1)
+    time.sleep(3)
 
-    store_dropdown = Select(driver.find_element(By.ID, "store_field_id"))
-    store_dropdown.select_by_visible_text(location["store"])
+    # city_dropdown = Select(driver.find_element(By.ID, "city_field_id"))
+    city_dropdown = wait.until(EC.element_to_be_clickable(By.XPATH, "//a[contains(@aria-labelledby, 'city')]"))
+    # city_dropdown.select_by_visible_text(location["city"])
+    city_dropdown.click()
+
+    time.sleep(3)
+
+    city_option = wait.until(EC.element_to_be_clickable(By.XPATH, f"//li[contains(text(), '{locations["city"]}')]"))
+    city_option.click()
+
+    time.sleep(3)
+
+    # store_dropdown = Select(driver.find_element(By.ID, "store_field_id"))
+    store_dropdown = wait.until(EC.element_to_be_clickable(By.XPATH, "//a[contains(@aria-labelledby, 'location')]"))
+    store_dropdown.click()
+    
+    time.sleep(3)
+    #store_dropdown.select_by_visible_text(location["store"])
+    store_option = wait.until(EC.element_to_be_clickable(By.XPATH, f"//li[contains(text(), '{locations["store"]}')]"))
+    store_option.click()
 
     checkboxes = driver.find_elements(By.NAME, "roles")
     for cb in checkboxes:
-        if cb.get_attributes("value") in user_data["roles"]:
+        if cb.get_attribute("value") in user_data["roles"]:
             cb.click()
     
+
 
     
     upload = driver.find_element(By.XPATH, "//input[@type='file']")
