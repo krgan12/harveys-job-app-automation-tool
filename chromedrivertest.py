@@ -33,13 +33,51 @@ locations = [
 
 def fill_form(driver, data, location):
     # Email
-    
+    email_input = wait.until(EC.presence_of_all_elements_located((By.ID, "request_anonymous_requester_email")))
+    email_input.send_keys(data["email"])
+
     # Name
+    name_input = driver.find_element(By.ID, "request_custom_fields_114100716231")
+    name_input.send_keys(data["name"])    
 
     # Phone
-    pass
+    phone_input = driver.find_element(By.ID, "request_custom_fields_114100726471")
+    phone_input.send_keys(data["phone"])
 
 def select_location(driver, location):
-    pass
+    province_dropdown = Select(driver.find_element(By.ID, "province_field_id"))
+    province_dropdown.select_by_visible_text(location["province"])
+
+    time.sleep(1)
+
+    city_dropdown = Select(driver.find_element(By.ID, "city_field_id"))
+    city_dropdown.select_by_visible_text(location["city"])
+
+    time.sleep(1)
+
+    store_dropdown = Select(driver.find_element(By.ID, "store_field_id"))
+    store_dropdown.select_by_visible_text(location["store"])
+
+    checkboxes = driver.find_elements(By.NAME, "roles")
+    for cb in checkboxes:
+        if cb.get_attributes("value") in user_data["roles"]:
+            cb.click()
+    
+
+    
+    upload = driver.find_element(By.XPATH, "//input[@type='file']")
+    upload.send_keys(user_data["resume_path"])   
+
+for location in locations:
+    driver.get(URL)
+
+    fill_form(driver, user_data, location) 
+    select_location(driver, location)
+
+    # Submit
+    submit_button = driver.find_element(By.XPATH, "//input[@type='submit']")
+    submit_button.click()
+
+    time.sleep(5) # wait for submission
 
 input("Press Enter to close the browser...")
